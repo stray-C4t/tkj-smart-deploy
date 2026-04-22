@@ -1,0 +1,62 @@
+body { background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif; margin: 0; }
+
+.watch-container {
+    display: flex;
+    max-width: 1300px;
+    margin: 30px auto;
+    padding: 0 20px;
+    gap: 30px;
+}
+
+/* Bagian Utama */
+.main-video { flex: 3; }
+
+.btn-back { display: inline-block; text-decoration: none; color: #4875ff; margin-bottom: 15px; font-weight: 600; }
+
+.video-player {
+    position: relative;
+    padding-bottom: 56.25%; /* Ratio 16:9 */
+    height: 0;
+    overflow: hidden;
+    background: #000;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.video-player iframe {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+}
+
+.video-details { margin-top: 20px; }
+.video-details h1 { font-size: 1.8rem; margin-bottom: 10px; color: #1e272e; }
+.vid-meta { color: #888; font-size: 0.9rem; margin-bottom: 15px; }
+.vid-desc { line-height: 1.6; color: #444; border-top: 1px solid #ddd; padding-top: 15px; }
+
+/* Sidebar */
+.video-sidebar { flex: 1; }
+.video-sidebar h3 { margin-bottom: 20px; font-size: 1.2rem; }
+
+.sidebar-card {
+    display: flex;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 15px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.sidebar-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+
+.side-thumb img { width: 100px; border-radius: 8px; }
+.side-info h4 { font-size: 0.9rem; margin: 0 0 5px 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.side-info span { font-size: 0.8rem; color: #888; }
+
+/* Responsif Mobile */
+@media (max-width: 900px) {
+    .watch-container { flex-direction: column; }
+    .video-sidebar { order: 2; }
+}

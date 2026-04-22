@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Quiz - TKJ Smart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='quiz.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="top-section">
+        <div class="container">
+            <nav class="top-nav">
+                <a href="/dashboard" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
+                </a>
+            </nav>
+
+            <header class="header">
+                <h1>Uji Kemampuanmu</h1>
+                <p>Pilih kuis sesuai materi yang sudah kamu pelajari untuk mengasah keahlianmu.</p>
+            </header>
+        </div>
+    </div>
+
+    <div class="bottom-section">
+        <div class="stars" id="star-container"></div>
+        <div class="container">
+            <div class="quiz-grid">
+                {% for q in quiz_list %}
+                <div class="quiz-card">
+                    <div class="quiz-icon">
+                        <i class="{{ q.icon }}"></i>
+                    </div>
+                    <h3>{{ q.judul }}</h3>
+                    <p>{{ q.soal_count }} Pertanyaan Pilihan Ganda</p>
+                    <a href="/quiz/kerjakan/{{ q.id }}" class="btn-start">Mulai Kuis</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <script>
+        const container = document.getElementById('star-container');
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            // Mengatur variasi posisi dan animasi secara acak via CSS Variable
+            star.style.setProperty('--top-offset', Math.random() * 100 + 'vh');
+            star.style.setProperty('--fall-duration', (Math.random() * 6 + 6) + 's');
+            star.style.setProperty('--fall-delay', (Math.random() * 10) + 's');
+            star.style.setProperty('--star-tail-length', (Math.random() * 2 + 5) + 'em');
+            container.appendChild(star);
+        }
+    </script>
+
+</body>
+</html>

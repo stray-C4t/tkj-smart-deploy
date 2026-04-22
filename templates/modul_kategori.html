@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul {{ nama_kategori }} - TKJ Smart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='modul.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='logo.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="top-header">
+        <div class="logo-container" style="margin-bottom:10px; margin-top:50px;">
+				<div class="logo-icon">
+					<img src="{{ url_for('static', filename='photos/logo.PNG') }}" alt="logo">
+				</div>
+
+				<div class="logo-text" style="height: 40px;">
+					<h1>
+						<span class="tkj">TKJ</span>
+						<span class="smart">Smart</span>
+					</h1>
+				</div>
+            </div>
+        <div class="profile-area" style="margin-top:10px;">
+            <a href="/account">
+                <img src="{{ url_for('static', filename='photos/foto-profil-default.JPG') }}" alt="Profile" class="profile-circle">
+            </a>
+        </div>
+    </header>
+
+    <div class="main-wrapper">
+        
+        <aside class="category-sidebar">
+            <div class="back-nav">
+                <a href="/dashboard" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
+                </a>
+            </div>
+            <h3>Kategori Materi</h3>
+            <nav class="category-nav">
+                <a href="/modul/cisco" class="cat-link {{ 'active' if nama_kategori == 'Cisco' }}"><i class="fas fa-network-wired"></i> Cisco Networking</a>
+                <a href="/modul/linux" class="cat-link {{ 'active' if nama_kategori == 'Linux' }}"><i class="fas fa-server"></i> Linux Server</a>
+                <a href="/modul/mikrotik" class="cat-link {{ 'active' if nama_kategori == 'Mikrotik' }}"><i class="fas fa-microchip"></i> Mikrotik</a>
+                <a href="/modul/cybersecurity" class="cat-link {{ 'active' if nama_kategori == 'Cybersecurity' }}"><i class="fas fa-shield-alt"></i> Cyber Security</a>
+            </nav>
+        </aside>
+
+        <main class="content-area">
+            <div class="content-header">
+                <h2>{{ nama_kategori }} Networking</h2>
+                <p>Koleksi materi {{ nama_kategori }} untuk tingkat menengah.</p>
+            </div>
+            <div class="material-grid">
+                {% for materi in materi_list %}
+                <div class="course-card reveal"> <div class="course-content">
+                        <div class="course-icon"><i class="{{ materi.icon }}"></i></div>
+                        <div style="border: 2px solid lightblue; width: 100%;"></div>
+						<br>
+                        <h4>{{ materi.judul }}</h4>
+                        <p>{{ materi.deskripsi_singkat if materi.deskripsi_singkat else 'Tidak ada deskripsi.' }}</p>
+                    </div>
+                    
+                    <a href="/modul/baca/{{ materi.id }}" class="btn-mulai">Mulai</a>
+                </div>
+                {% endfor %}
+
+                {% if not materi_list %}
+                <p>Materi untuk kategori {{ nama_kategori }} belum tersedia.</p>
+                {% endif %}
+            </div>
+        </main>
+
+    </div>
+
+</body>
+</html>

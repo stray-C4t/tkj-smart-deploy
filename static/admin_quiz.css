@@ -1,0 +1,18 @@
+.form-container, .form-container-small {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    margin: 50px auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.form-container { max-width: 700px; }
+.form-container-small { max-width: 400px; text-align: center; }
+
+textarea { width: 100%; height: 100px; margin-bottom: 20px; border-radius: 5px; border: 1px solid #ddd; padding: 10px; }
+.grid-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.grid-options input { padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+
+.btn-primary, .btn-save { background: #3498db; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; width: 100%; }
+.btn-save { background: #2ecc71; margin-top: 20px; }
+.btn-finish { display: block; text-align: center; margin-top: 15px; text-decoration: none; color: #666; }
+.alert-success { background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 20px; text-align: center; }

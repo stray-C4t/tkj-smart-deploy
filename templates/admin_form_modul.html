@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Tambah Modul - Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+</head>
+<body style="padding: 30px; display: block;" class="login-body">
+    <div class="finisher-header" id="full-bg"></div>
+    <div style="max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+        <h2 style="margin-top:0;">Tambah Modul Baru</h2>
+        <hr>
+        <form action="/admin/save-modul" method="POST">
+            <div class="form-group">
+                <label>Judul Modul</label>
+                <input type="text" name="judul" class="form-control" placeholder="Contoh: Konfigurasi Router MikroTik" required>
+            </div>
+            <div class="form-group">
+                <label>Kategori</label>
+                <select name="kategori" class="form-control">
+                    <option value="cisco">cisco</option>
+                    <option value="mikrotik">mikrotik</option>
+                    <option value="linux">linux</option>
+                </select>
+            </div>
+            <div class="form-group">
+				<label>Pilih Icon Modul</label>
+				<select name="icon" class="form-control">
+					<option value="fas fa-network-wired">🌐 Network Wired (Cisco/Mikrotik)</option>
+					<option value="fab fa-linux">🐧 Linux Logo</option>
+					<option value="fas fa-server">🖥️ Server</option>
+					<option value="fas fa-shield-alt">🛡️ Security / Firewall</option>
+					<option value="fas fa-terminal">💻 Terminal / CLI</option>
+					<option value="fas fa-microchip">📟 Hardware</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label>Deskripsi Modul</label>
+				<textarea name="deskripsi_singkat" class="form-control" rows="2"
+					placeholder="Contoh: Modul ini membahas dasar konfigurasi jaringan MikroTik..."></textarea>
+			</div>
+            <div class="form-group">
+                <label>Isi Materi</label>
+                <textarea id="summernote" name="konten"></textarea>
+            </div>
+            <div style="margin-top: 20px;">
+                <button type="submit" class="btn btn-primary" style="width: 200px;">Simpan Modul</button>
+                <a href="/admin" class="btn btn-default">Batal</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let isEdit = {{ is_edit | tojson if is_edit else 'false' }};
+        let modul = {{ modul | tojson if modul else 'null' }};
+
+        $(document).ready(function() {
+            $('#summernote').summernote({
+                placeholder: 'Tulis tutorial atau materi TKJ di sini...',
+                height: 300,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+
+            // 🔥 MODE EDIT
+            if (isEdit && modul) {
+
+                // isi field biasa
+                document.querySelector('input[name="judul"]').value = modul.judul;
+                document.querySelector('select[name="kategori"]').value = modul.kategori;
+                document.querySelector('select[name="icon"]').value = modul.icon;
+                document.querySelector('textarea[name="deskripsi_singkat"]').value = modul.deskripsi_singkat || "";
+
+                // 🔥 ISI SUMMERNOTE (INI YANG PENTING)
+                $('#summernote').summernote('code', modul.konten);
+
+                // 🔥 ubah form ke update
+                document.querySelector('form').action = `/admin/update-modul/${modul.id}`;
+
+                // ubah tombol
+                document.querySelector('button[type="submit"]').innerText = "Update Modul";
+
+                // ubah judul
+                document.querySelector('h2').innerText = "Edit Modul";
+            }
+        });
+    </script>
+    <script src="{{ url_for('static', filename='finisher-header.es5.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        // Inisialisasi animasi
+        new FinisherHeader({
+          "count": 4,
+          "size": { "min": 1300, "max": 1500, "pulse": 0.1 },
+          "speed": { "x": { "min": 0.3, "max": 0.5 }, "y": { "min": 0, "max": 0.2 } },
+          "colors": {
+            "background": "#51d7ff",
+            "particles": ["#6384ff", "#56cdff", "#4875ff", "#7779ff"]
+          },
+          "blending": "lighten",
+          "opacity": { "center": 0.8, "edge": 0.2 },
+          "skew": 0,
+          "shapes": ["c", "t"]
+        });
+    </script>
+</body>
+</html>

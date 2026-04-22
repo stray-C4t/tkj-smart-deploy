@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tambah Akun - Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='form_akun.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body style="display: block; padding: 30px;" class="login-body">
+	<div class="finisher-header" id="full-bg"></div>
+    <div style="max-width: 400px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+        <h2 style="text-align: center;">Tambah Akun</h2>
+        <form action="/admin/save-account" method="POST">
+			<div class="form-group">
+				<label>Nama Lengkap</label>
+				<input type="text" name="nama_lengkap" class="form-control" placeholder="Nama Asli Siswa" required>
+			</div>
+			<div class="form-group">
+				<label>Username</label>
+				<input type="text" name="username" class="form-control" required>
+			</div>
+			<div class="form-group">
+				<label>Password</label>
+				<input type="password" name="password" class="form-control" required>
+			</div>
+			<div class="form-group">
+				<label>email</label>
+				<input type="text" name="email" class="form-control" required>
+			</div>
+			<div class="form-group">
+				<label>Role / Jabatan</label>
+				<select name="role" class="form-control">
+					<option value="siswa">Siswa</option>
+					<option value="admin">Admin / Guru</option>
+				</select>
+			</div>
+			<button type="submit" class="btn btn-primary btn-block">Simpan Akun</button>
+		</form>
+    </div>
+    <script>
+	let isEdit = {{ is_edit | tojson if is_edit else 'false' }};
+	let user = {{ user | tojson if user else 'null' }};
+
+	window.onload = function() {
+		if (isEdit && user) {
+
+			// isi field
+			document.querySelector('input[name="nama_lengkap"]').value = user.nama_lengkap;
+			document.querySelector('input[name="username"]').value = user.username;
+			document.querySelector('input[name="email"]').value = user.email;
+
+			// set role
+			document.querySelector('select[name="role"]').value = user.role;
+
+			// ⚠️ password dikosongkan (biar tidak bocor)
+			document.querySelector('input[name="password"]').placeholder = "Kosongkan jika tidak ingin mengubah password";
+			document.querySelector('input[name="password"]').required = false;
+
+			// ubah form action → update
+			document.querySelector('form').action = `/admin/update-user/${user.id}`;
+
+			// ubah tombol
+			document.querySelector('button[type="submit"]').innerText = "Update Akun";
+
+			// ubah judul
+			document.querySelector('h2').innerText = "Edit Akun";
+		}
+	};
+	</script>
+	<script src="{{ url_for('static', filename='finisher-header.es5.min.js') }}" type="text/javascript"></script>
+	<script type="text/javascript">
+        // Inisialisasi animasi
+        new FinisherHeader({
+          "count": 4,
+          "size": { "min": 1300, "max": 1500, "pulse": 0.1 },
+          "speed": { "x": { "min": 0.3, "max": 0.5 }, "y": { "min": 0, "max": 0.2 } },
+          "colors": {
+            "background": "#51d7ff",
+            "particles": ["#6384ff", "#56cdff", "#4875ff", "#7779ff"]
+          },
+          "blending": "lighten",
+          "opacity": { "center": 0.8, "edge": 0.2 },
+          "skew": 0,
+          "shapes": ["c", "t"]
+        });
+    </script>
+</body>
+</html>

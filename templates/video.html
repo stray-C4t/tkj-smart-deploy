@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Pembelajaran - TKJ Smart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='video.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='html.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="video-page-container">
+        
+        <nav class="top-nav">
+            <a href="/dashboard" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
+            </a>
+            <div class="user-profile">
+                <img src="{{ url_for('static', filename='photos/foto-profil-default.JPG') }}" alt="Profile">
+            </div>
+        </nav>
+
+        <header class="video-header">
+            <h1>Video Pembelajaran</h1>
+            <p>Tonton dan pelajari keahlian teknis TKJ kapan saja, di mana saja.</p>
+            
+            <div class="search-wrapper">
+                <form action="/video" method="GET" class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" name="q" placeholder="Cari tutorial (ex: Mikrotik, Kabel UTP...)" autocomplete="off">
+                    <button type="submit">Cari Video</button>
+                </form>
+            </div>
+        </header>
+
+        <main class="video-content">
+            <div class="video-grid">
+                {% for v in videos %}
+                <div class="video-card reveal">
+                    <div class="video-thumbnail">
+                        <img src="{{ v.thumbnail }}" alt="{{ v.judul }}">
+                        <div class="play-btn">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <span class="vid-duration">{{ v.durasi }}</span>
+                    </div>
+                    <div class="video-body">
+                        <span class="vid-tag">Tutorial</span>
+                        <h3>{{ v.judul }}</h3>
+                        <p>{{ v.desc }}</p>
+                        <a href="/video/watch/{{ v.id }}" class="btn-watch-now">Tonton Sekarang</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            {% if not videos %}
+            <div class="no-results">
+                <i class="fas fa-video-slash"></i>
+                <p>Maaf, video yang kamu cari tidak ditemukan.</p>
+                <a href="/video">Lihat Semua Video</a>
+            </div>
+            {% endif %}
+        </main>
+    </div>
+    <script>
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				// Jika elemen masuk ke area pandang (viewport)
+				if (entry.isIntersecting) {
+					entry.target.classList.add('active');
+				} else {
+					// Opsional: hapus baris di bawah jika ingin animasi hanya sekali saja
+					// entry.target.classList.remove('active'); 
+				}
+			});
+		}, {
+			threshold: 0.1 // Animasi mulai saat 10% elemen terlihat
+		});
+
+		// Cari semua elemen dengan class 'reveal' dan jalankan pengamat (observer)
+		const revealElements = document.querySelectorAll('.reveal');
+		revealElements.forEach((el) => observer.observe(el));
+	</script>
+</body>
+</html>

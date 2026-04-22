@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard TKJ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}?v=1.1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='html.css') }}?v=1.1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='logo.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo-container" style="margin-bottom:10px;">
+				<div class="logo-icon">
+					<img src="{{ url_for('static', filename='photos/logo.PNG') }}" alt="logo">
+				</div>
+
+				<div class="logo-text">
+					<h1>
+						<span class="tkj">TKJ</span>
+						<span class="smart">Smart</span>
+					</h1>
+				</div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-link active">
+                    <i class="fas fa-home"></i> <span>Home</span>
+                </a>
+                <a href="/quiz" class="nav-link">
+                    <i class="fas fa-edit"></i> <span>Latihan Soal</span>
+                </a>
+                <a href="/modul/cisco" class="nav-link">
+                    <i class="fas fa-book"></i> <span>Modul</span>
+                </a>
+                <a href="/video" class="nav-link">
+                    <i class="fas fa-video"></i> <span>Video</span>
+                </a>
+                <a href="/account" class="nav-link">
+                    <i class="fas fa-user"></i> <span>Akun</span>
+                </a>
+                <a href="#" class="nav-link logout-btn" style="margin-top: auto; color: #e74c3c;" onclick="openLogoutModal()">
+					<i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+				</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-nav">
+                <div class="header-left">
+					<span class="header-text">SMKN 2 Probolinggo</span>
+				</div>
+					<div class="header-right">
+						<a href="/account">
+							<img src="{{ url_for('static', filename='photos/foto-profil-default.JPG') }}" class="user-avatar">
+						</a>
+					</div>
+            </header>
+            
+            <section class="banner-section">
+				<div class="banner-box">
+					<img src="{{ url_for('static', filename='photos/foto-guru.png') }}" alt="Banner TKJ">
+				</div>
+			</section>
+
+            <section class="welcome">
+                <h1>Selamat Datang, {{ session['nama_lengkap'] }}!</h1>
+                <p>Mau belajar apa hari ini?</p>
+            </section>
+
+            <section class="progress-container">
+				<h3>Progress & Streak</h3>
+				<div class="card-stack-horizontal">
+					
+					<div class="card card-main-progress">
+						<div class="progress-header">
+							<span class="pct-text">{{ progres if progres else 0 }}%</span>
+							<div class="bar-outer">
+								<div class="bar-inner" style="width: {{ progres if progres else 0 }}%;"></div>
+							</div>
+						</div>
+						<br>
+						<div class="card-info">
+							<h4>{{ materi if materi else "Belum ada materi" }}</h4>
+							<p>{{ deskripsi if deskripsi else "Mulai belajar untuk melihat progress." }}</p>
+						</div>
+
+						<div class="card-action">
+							{% if modul_id %}
+								<a href="/modul/baca/{{ modul_id }}" class="btn-lanjut">Lanjutkan</a>
+							{% else %}
+								<a href="/modul/cisco" class="btn-lanjut">Mulai Belajar</a>
+							{% endif %}
+						</div>
+					</div>
+
+					<div class="card card-streak-standalone">
+						<div class="streak-content">
+							<div class="streak-fire">
+								<div class="fire">
+								  <div class="fire-left">
+									<div class="main-fire"></div>
+									<div class="particle-fire"></div>
+								  </div>
+								  <div class="fire-center">
+									<div class="main-fire"></div>
+									<div class="particle-fire"></div>
+								  </div>
+								  <div class="fire-right">
+									<div class="main-fire"></div>
+									<div class="particle-fire"></div>
+								  </div>
+								  <div class="fire-bottom">
+									<div class="main-fire"></div>
+								  </div>
+								</div>
+								<span class="streak-count">{{ streak }}</span>
+							</div>
+							<p class="streak-text">{{ streak }} Day Streak!</p>
+							
+							<div class="streak-days-row">
+								{% set days = ['S', 'S', 'R', 'K', 'J', 'S', 'M'] %}
+								{% for i in range(7) %}
+									<span class="day-dot {{ 'active' if day_list[i] == 1 else '' }}">
+										{{ days[i] }}
+									</span>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</section>
+            
+            <section class="recommendation-container reveal">
+				<div class="section-header">
+					<h3>Rekomendasi Materi</h3>
+				</div>
+
+				<div class="course-grid">
+						{% if rekomendasi %}
+							{% for m in rekomendasi %}
+							<div class="course-card">
+								<div class="course-content">
+
+									<div class="course-icon">
+										<i class="{{ m.icon }}"></i>
+									</div>
+									<div style="border: 2px solid #87CEEB; width: 100%;"></div>
+									<br>
+
+									<h4>{{ m.judul }}</h4>
+
+									<p>
+										{{ m.deskripsi_singkat if m.deskripsi_singkat else 'Tidak ada deskripsi' }}
+									</p>
+
+								</div>
+
+								<a href="/modul/baca/{{ m.id }}" class="btn-start">Mulai</a>
+							</div>
+							{% endfor %}
+
+						{% else %}
+							<p>Belum ada materi tersedia.</p>
+						{% endif %}
+				</div>
+
+				<div class="view-more-wrapper">
+					<a href="/modul/cisco" class="btn-view-more">Lihat Semua Materi <i class="fas fa-arrow-right"></i></a>
+				</div>
+			</section>
+            
+            <section class="features-section reveal">
+				<h3>Temukan Fitur Lainnya</h3>
+				
+				<div class="features-grid">
+					<a href="/modul/cisco" class="feature-card">
+						<div class="feature-icon-wrapper">
+							<i class="fas fa-book-open"></i>
+						</div>
+						<div class="feature-text">
+							<h4>Modul Pembelajaran</h4>
+							<p>Akses materi teks lengkap dengan panduan langkah demi langkah.</p>
+						</div>
+						<i class="fas fa-chevron-right arrow-icon"></i>
+					</a>
+
+					<a href="/video" class="feature-card">
+						<div class="feature-icon-wrapper">
+							<i class="fas fa-play-circle"></i>
+						</div>
+						<div class="feature-text">
+							<h4>Video Tutorial</h4>
+							<p>Tonton demonstrasi praktik langsung konfigurasi perangkat jaringan.</p>
+						</div>
+						<i class="fas fa-chevron-right arrow-icon"></i>
+					</a>
+
+					<a href="/quiz" class="feature-card">
+						<div class="feature-icon-wrapper">
+							<i class="fas fa-tasks"></i>
+						</div>
+						<div class="feature-text">
+							<h4>Quiz & Latihan Soal</h4>
+							<p>Uji pemahamanmu dengan simulasi ujian kompetensi TKJ.</p>
+						</div>
+						<i class="fas fa-chevron-right arrow-icon"></i>
+					</a>
+				</div>
+			</section>
+            
+        </main>
+    </div>
+	<div id="logoutModal" class="modal-overlay">
+		<div class="modal-box">
+			<div class="modal-icon">
+				<i class="fas fa-exclamation-circle"></i>
+			</div>
+			<h2>Yakin ingin keluar?</h2>
+			<p>Kamu akan keluar dari sesi pembelajaran saat ini.</p>
+			<div class="modal-buttons">
+				<button class="btn-cancel" onclick="closeLogoutModal()">Batal</button>
+				<a href="/" class="btn-confirm">Ya, Keluar</a>
+			</div>
+		</div>
+	</div>	
+	<script>
+		function openLogoutModal() {
+			document.getElementById("logoutModal").style.display = "flex";
+		}
+
+		function closeLogoutModal() {
+			document.getElementById("logoutModal").style.display = "none";
+		}
+
+		// Tutup modal jika user klik area luar kotak
+		window.onclick = function(event) {
+			let modal = document.getElementById("logoutModal");
+			if (event.target == modal) {
+				modal.style.display = "none";
+			}
+		}
+	</script>
+	<script>
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				// Jika elemen masuk ke area pandang (viewport)
+				if (entry.isIntersecting) {
+					entry.target.classList.add('active');
+				} else {
+					// Opsional: hapus baris di bawah jika ingin animasi hanya sekali saja
+					// entry.target.classList.remove('active'); 
+				}
+			});
+		}, {
+			threshold: 0.1 // Animasi mulai saat 10% elemen terlihat
+		});
+
+		// Cari semua elemen dengan class 'reveal' dan jalankan pengamat (observer)
+		const revealElements = document.querySelectorAll('.reveal');
+		revealElements.forEach((el) => observer.observe(el));
+	</script>
+</body>
+</html>

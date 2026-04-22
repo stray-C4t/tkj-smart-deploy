@@ -1,0 +1,309 @@
+/* Membuat animasi memenuhi seluruh layar */
+#full-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none; /* Tambahkan ini agar tidak menghalangi interaksi */
+}
+#full-bg canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Agar Card Login kamu terlihat lebih 'menyatu' dengan background animasi */
+.login-card {
+    background: rgba(255, 255, 255, 0.85); /* Beri sedikit transparansi */
+    backdrop-filter: blur(10px); /* Efek kaca (Glassmorphism) */
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.login-form-side {
+    background: rgba(255, 255, 255, 0.75); /* Transparan putih */
+    backdrop-filter: blur(15px); /* Efek blur kaca */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.login-body {
+    background: linear-gradient(135deg, #007bff, #00d4ff);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+/* Container Utama */
+.login-wrapper {
+    display: flex;
+    width: 900px; /* Lebar total kotak login */
+    height: 550px;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden; /* Agar foto tidak keluar dari border radius */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+	
+}
+
+#full-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1; /* Di belakang form */
+        }
+
+.btn-login {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+}
+
+/* Link Kembali */
+.back-home {
+    display: inline-block;
+    margin-top: 25px;
+    text-decoration: none;
+    color: #b2bec3;
+    font-size: 0.85rem;
+    transition: color 0.3s;
+}
+
+.back-home:hover {
+    color: #007bff;
+}
+
+.dashboard-body {
+    background-color: #f0f2f5;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.dashboard-container {
+    display: flex;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    gap: 0; /* MEMASTIKAN TIDAK ADA JARAK ANTAR FLEX ITEM */
+    align-items: stretch;
+}
+/* SIDEBAR (Kiri) */
+/* Sidebar Container Utama */
+.sidebar {
+    width: 260px;
+    min-width: 260px; /* Mengunci lebar sidebar */
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: white;
+    z-index: 1000;
+}
+
+/* Header Logo */
+.sidebar-logo {
+    padding: 0 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 800;
+    color: #2d3436;
+    margin-bottom: 40px;
+}
+
+/* Menu Navigasi Rata Kiri (Nempel Pinggir) */
+/* Sidebar Container */
+.sidebar {
+    width: 260px;
+    background-color: #ffffff;
+    
+    /* KUNCI UTAMA DI SINI */
+    position: sticky; /* Atau sticky */
+    height: 100vh;   /* Tinggi penuh layar */
+    top: 0;
+    left: 0;
+    
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0;
+    box-shadow: 2px 0 15px rgba(0,0,0,0.05);
+    z-index: 100; /* Agar tidak tertutup konten */
+}
+
+/* Menu Navigasi */
+.sidebar-menu {
+    /* Hapus flex: 1; agar dia tidak mengambil sisa ruang */
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Jarak antar kotak menu dibuat tipis saja */
+    padding: 0 15px;
+    margin-bottom: auto; /* Trik ini akan mendorong menu logout ke bawah, tapi menu utama tetap rapat di atas */
+}
+
+/* Keadaan normal tombol */
+.sidebar-menu a {
+    text-decoration: none;
+    color: #636e72; /* Warna teks abu-abu saat normal */
+    padding: 12px 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: transparent; /* Background polos */
+    transition: all 0.3s ease; /* Biar perubahan warnanya halus/smooth */
+    font-weight: 500;
+}
+
+/* EFEK SAAT MOUSE DI ATAS TOMBOL (Hover) */
+.sidebar-menu a:hover {
+    background-color: #007bff; /* Berubah jadi Biru */
+    color: white;              /* Tulisan berubah jadi Putih agar terbaca */
+}
+
+/* EFEK KHUSUS UNTUK ICON SAAT HOVER */
+.sidebar-menu a:hover i {
+    color: white;
+}
+
+/* Agar tombol yang sedang aktif (diklik) juga tetap biru */
+.sidebar-menu a.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Bagian Logout */
+.sidebar-footer {
+    padding: 20px 15px 0 15px;
+    border-top: 1px solid #f1f2f6;
+}
+
+.logout-btn {
+    text-decoration: none;
+    color: #ff4757; /* Warna merah untuk logout */
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: background 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #fff0f0;
+}
+
+.custom-shape-divider-bottom-1776462861 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1776462861 svg {
+    position: relative;
+    display: block;
+    width: calc(113% + 1.3px);
+    height: 72px;
+    transform: rotateY(180deg);
+}
+
+.custom-shape-divider-bottom-1776462861 .shape-fill {
+    fill: #FFFFFF;
+}
+
+/* Sisi Kiri (Foto) */
+.login-image {
+    flex: 1;
+    background-image: url('photos/smkn2.JPG'); /* Ganti dengan path fotomu */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 40px;
+}
+
+.image-overlay {
+    color: white;
+    background: rgba(0, 0, 0, 0.4); /* Efek gelap agar teks terbaca */
+    padding: 20px;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+}
+
+/* Sisi Kanan (Form) */
+/* Sisi Kanan (Form) - Kita buat lebih rapi */
+.login-form-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px; /* Tambah padding agar tidak terlalu mepet */
+    background-color: #ffffff;
+}
+
+.form-content h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #2d3436;
+    margin-bottom: 5px;
+}
+
+.form-content p {
+    font-size: 0.95rem;
+    color: #636e72;
+    margin-bottom: 30px;
+}
+
+/* Merapikan label dan input */
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #2d3436;
+    margin-bottom: 8px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px; /* Lebih tebal agar premium */
+    border: 2px solid #f1f2f6; /* Border lebih soft */
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+}
+
+/* Efek saat input diklik */
+.input-group input:focus {
+    outline: none;
+    border-color: #007bff;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
+}

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ judul }} Quiz - TKJ Smart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='quiz_kerjakan.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="quiz-container">
+        <div class="quiz-top-bar">
+			<div class="quest-count">
+				<i class="fas fa-list-ol"></i> <span id="current-quest-num">1</span>/{{ soal_list|length }}
+			</div>
+			
+			<div class="timer-wrapper">
+				<div id="timer-bar" class="timer-bar"></div>
+			</div>
+
+			<div class="right-elements">
+				<div class="score-display">
+					<span id="score-val">0</span> <i class="fas fa-bolt"></i>
+				</div>
+				<a href="/quiz" class="exit-btn"><i class="fas fa-times"></i></a>
+			</div>
+		</div>
+
+        <div class="question-section" id="quiz-content">
+            <h1 id="question-text">Memuat pertanyaan...</h1>
+        </div>
+
+        <div id="options-container" class="options-container">
+            </div>
+
+        <div id="result-screen" class="result-screen hidden">
+			<div class="result-content">
+				<i class="fas fa-trophy trophy-icon"></i>
+				
+				<h2>Kuis Selesai!</h2>
+				<div class="final-score-circle">
+					<span id="final-score">0</span>
+				</div>
+				<a href="/quiz" class="btn-back-menu">Kembali ke Menu</a>
+			</div>
+		</div>
+    </div>
+
+    <script>
+
+		// Mengubah data Python ke JSON JavaScript
+const soalData = {{ soal_list | tojson | safe }};
+let currentIdx = 0;
+let score = 0;
+let timer;
+const totalTime = 15;
+
+function loadQuestion() {
+    if (!soalData || soalData.length === 0) {
+        document.getElementById('question-text').innerText = "Data soal tidak ditemukan di database.";
+        return;
+    }
+
+    if (currentIdx >= soalData.length) {
+        showFinalResult();
+        return;
+    }
+
+    const data = soalData[currentIdx];
+    document.getElementById('question-text').innerText = data.tanya;
+    document.getElementById('current-quest-num').innerText = currentIdx + 1;
+    
+    const container = document.getElementById('options-container');
+    container.innerHTML = '';
+
+    // Gunakan index (i) untuk mendapatkan huruf A, B, C, atau D
+    data.opsi.forEach((text, i) => {
+        const huruf = ["A", "B", "C", "D"][i]; 
+        const btn = document.createElement('div');
+        btn.className = 'option-box';
+        
+        // Menampilkan Huruf dan Teks Opsi agar lebih jelas
+        btn.innerHTML = `<span class="opt-letter">${huruf}.</span> ${text}`;
+        
+        // Kirim 'huruf' (A/B/C/D) untuk dibandingkan dengan data.kunci
+        btn.onclick = () => handleSelection(btn, huruf, data.kunci);
+        container.appendChild(btn);
+    });
+
+    startTimer();
+	}
+
+	function handleSelection(selectedBtn, selectedLetter, correctLetter) {
+		clearInterval(timer);
+		const allBtns = document.querySelectorAll('.option-box');
+		
+		// Kunci semua tombol agar tidak bisa diklik lagi
+		allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+		// LOGIKA PERBANDINGAN: Huruf vs Huruf (Misal 'A' === 'A')
+		if (selectedLetter === correctLetter) {
+			selectedBtn.classList.add('correct-anim');
+			score += 100;
+		} else {
+			// Jika salah atau waktu habis
+			if (selectedBtn && selectedBtn.classList) {
+				selectedBtn.classList.add('wrong-anim');
+			}
+			score = Math.max(0, score - 50);
+
+			// Tunjukkan jawaban yang benar dengan mencari index hurufnya
+			const correctIdx = ["A", "B", "C", "D"].indexOf(correctLetter);
+			if (allBtns[correctIdx]) {
+				allBtns[correctIdx].classList.add('correct-anim');
+			}
+		}
+
+		document.getElementById('score-val').innerText = score;
+
+		// Delay 1.5 detik sebelum pindah soal agar animasi terlihat
+		setTimeout(() => {
+			currentIdx++;
+			loadQuestion();
+		}, 1500);
+	}
+
+	function startTimer() {
+		let timeLeft = totalTime;
+		const bar = document.getElementById('timer-bar');
+		if(bar) bar.style.width = '100%';
+		
+		clearInterval(timer);
+		timer = setInterval(() => {
+			timeLeft -= 0.1;
+			let width = (timeLeft / totalTime) * 100;
+			if(bar) bar.style.width = width + '%';
+
+			if (timeLeft <= 0) {
+				clearInterval(timer);
+				// Jika waktu habis, anggap salah (kirim huruf kosong)
+				handleSelection(null, '', soalData[currentIdx].kunci);
+			}
+		}, 100);
+	}
+
+	function showFinalResult() {
+		// Sembunyikan elemen kuis
+		const content = document.getElementById('quiz-content');
+		const container = document.getElementById('options-container');
+		if(content) content.style.display = 'none';
+		if(container) container.style.display = 'none';
+		
+		// Tampilkan layar hasil
+		const resultScreen = document.getElementById('result-screen');
+		if(resultScreen) {
+			resultScreen.classList.remove('hidden');
+			document.getElementById('final-score').innerText = score;
+		}
+	}
+	function showFinalResult() {
+		document.getElementById('quiz-content').style.display = 'none';
+		document.getElementById('options-container').style.display = 'none';
+		document.getElementById('result-screen').classList.remove('hidden');
+		document.getElementById('final-score').innerText = score;
+
+		// 🔥 kirim ke backend
+		fetch('/submit-quiz', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				quiz_id: {{ request.view_args['quiz_id'] }},
+				score: score,
+				max_score: soalData.length * 100
+			})
+		});
+	}
+
+	window.onload = loadQuestion;
+		</script>
+</body>
+</html>

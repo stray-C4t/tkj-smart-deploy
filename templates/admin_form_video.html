@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Tambah Video - Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body style="padding: 40px; display: block;" class="login-body">
+    <div class="finisher-header" id="full-bg"></div>
+    <div style="max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+        <h2 style="margin-top:0;">Tambah Video Tutorial</h2>
+        <hr>
+        <form action="/admin/save-video" method="POST">
+            <div class="form-group">
+                <label>Judul Video</label>
+                <input type="text" name="judul" class="form-control" placeholder="Contoh: Tutorial Dasar Linux" required>
+            </div>
+            <div class="form-group">
+                <label>YouTube Video ID</label>
+                <input type="text" name="youtube_id" class="form-control" placeholder="Contoh: dQw4w9WgXcQ" required>
+                <small class="text-muted">Ambil kode unik setelah tanda <b>v=</b> di link YouTube.</small>
+            </div>
+            <div class="form-group">
+                <label>Durasi</label>
+                <input type="text" name="durasi" class="form-control" placeholder="Contoh: 12:45">
+            </div>
+            <div class="form-group">
+                <label>Deskripsi</label>
+                <textarea name="deskripsi" class="form-control" rows="3"></textarea>
+            </div>
+            <div style="margin-top: 20px;">
+                <button type="submit" class="btn btn-success" style="width: 200px;">Publikasikan Video</button>
+                <a href="/admin" class="btn btn-light">Batal</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let isEdit = {{ is_edit | tojson if is_edit else 'false' }};
+        let video = {{ video | tojson if video else 'null' }};
+
+        window.onload = function() {
+            if (isEdit && video) {
+                // isi otomatis
+                document.querySelector('input[name="judul"]').value = video.judul;
+                document.querySelector('input[name="youtube_id"]').value = video.youtube_id;
+
+                // optional field (kalau ada di DB)
+                if (video.durasi) {
+                    document.querySelector('input[name="durasi"]').value = video.durasi;
+                }
+                if (video.deskripsi) {
+                    document.querySelector('textarea[name="deskripsi"]').value = video.deskripsi;
+                }
+
+                // ubah form action
+                document.querySelector('form').action = `/admin/update-video/${video.id}`;
+
+                // ubah tombol
+                document.querySelector('button[type="submit"]').innerText = "Update Video";
+
+                // ubah judul halaman
+                document.querySelector('h2').innerText = "Edit Video Tutorial";
+            }
+        };
+    </script>
+    <script src="{{ url_for('static', filename='finisher-header.es5.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        // Inisialisasi animasi
+        new FinisherHeader({
+          "count": 4,
+          "size": { "min": 1300, "max": 1500, "pulse": 0.1 },
+          "speed": { "x": { "min": 0.3, "max": 0.5 }, "y": { "min": 0, "max": 0.2 } },
+          "colors": {
+            "background": "#51d7ff",
+            "particles": ["#6384ff", "#56cdff", "#4875ff", "#7779ff"]
+          },
+          "blending": "lighten",
+          "opacity": { "center": 0.8, "edge": 0.2 },
+          "skew": 0,
+          "shapes": ["c", "t"]
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>TKJ Smart - Pembelajaran Jaringan</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='html.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='logo.css') }}">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+	<link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+    <nav>
+        <div class="logo-container">
+			<div class="logo-icon" style="margin-bottom: 0px;">
+				<img src="{{ url_for('static', filename='photos/logo.PNG') }}" alt="logo">
+			</div>
+
+			<div class="logo-text">
+				<h1>
+					<span class="tkj" style="font-size: 20px">TKJ</span>
+					<span class="smart" style="font-size: 20px">Smart</span>
+				</h1>
+				<p class="subtitle" style="margin-top:7px">Teknik Komputer Dan Jaringan Pintar</p>
+			</div>
+		</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#tentang">Tentang</a>
+            <a href="#fitur">Fitur</a>
+            <a href="#kontak">Kontak</a>
+            <a href="/login" target="_self" class="login-btn">Login</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="overlay"></div>
+        <video autoplay muted loop playsinline class="hero-video">
+			<source src="{{ url_for('static', filename='videos/background.mp4') }}" type="video/mp4">
+		</video>
+        <div class="hero-content">
+            <h1 style="font-size: 50px;">AYO BELAJAR TKJ</h1>
+            <p>Eksplorasi dunia jaringan komputer dengan cara yang asik dan mudah dipahami.</p>
+        </div>
+        <div class="custom-shape-divider-bottom-1776462861">
+			<svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+				<path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>
+				<path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="shape-fill"></path>
+				<path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>
+			</svg>
+		</div>
+    </header>
+
+    <section id="tentang" class="about-container">
+		<div class="floating-photos">
+			<img src="{{ url_for('static', filename='photos/foto-server.webp') }}" class="photo p1 reveal" alt="Foto 1" style="transition-delay: 0.1s;">
+			<img src="{{ url_for('static', filename='photos/foto-nyambung-kabel.jpg') }}" class="photo p2 reveal" alt="Foto 2" style="transition-delay: 0.1s;">
+			<img src="{{ url_for('static', filename='photos/cli.jpg') }}" class="photo p3 reveal" alt="Foto 3" style="transition-delay: 0.5s;">
+			<img src="{{ url_for('static', filename='photos/orang-server-1.jpg') }}" class="photo p4 reveal" alt="Foto 4" style="transition-delay: 0.5s;">
+			<img src="{{ url_for('static', filename='photos/foto-cisco-1.jpg') }}" class="photo p5 reveal" alt="Foto 5" style="transition-delay: 0.3s;">
+			<img src="{{ url_for('static', filename='photos/server-2.jpg') }}" class="photo p6 reveal" alt="Foto 6" style="transition-delay: 0.3s;">
+		</div>
+
+		<div class="explanation-box reveal">
+			<h2>Tentang Kami</h2>
+			<p>
+            TKJ Smart adalah website edukasi yang dikembangkan untuk membantu siswa SMK jurusan TKJ 
+            menguasai kompetensi keahlian secara mandiri. Kami menyediakan berbagai fitur mulai dari 
+            modul interaktif, simulasi jaringan, hingga bank soal untuk mempersiapkan siswa menghadapi 
+            dunia industri IT yang dinamis.
+			</p>
+		</div>
+	</section>
+
+    <section id="fitur" class="fitur-section reveal">
+		<div class="fitur-bg"></div>
+        <h1 style="position: relative; color: rgb(255, 255, 255);">Fitur Utama</h1>
+        <div class="cards">
+        {% for f in fitur %}
+        <input 
+            type="radio" 
+            id="radio-{{ loop.index }}" 
+            name="radio-card"
+            {% if loop.first %}checked{% endif %}
+			data-img="{{ f.img }}"
+        >
+        <article class="card" style="--angle:{{ (loop.index * 5) - 10 }}deg">
+            <img class="card-img" src="{{ f.img }}" alt="{{ f.judul }}">
+            <div class="card-data">
+                <span class="card-num">
+                    {{ loop.index }}/{{ fitur|length }}
+                </span>
+                <h2 style="color: rgb(255, 255, 255);">{{ f.judul }}</h2>
+                <p style="color: rgb(255, 255, 255);">{{ f.desc }}</p>
+				<div class="card-actions">
+					<a href="/login" class="btn-mulai">Mulai</a>
+					<footer>
+						<label 
+							for="radio-{{ loop.index - 1 if not loop.first else fitur|length }}" 
+							aria-label="Previous"
+						>
+							&#10094;
+						</label>
+						<label 
+							for="radio-{{ loop.index + 1 if not loop.last else 1 }}" 
+							aria-label="Next"
+						>
+							&#10095;
+						</label>
+					</footer>
+				</div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    </section>
+	<section class="guru-section reveal">
+		<h2>Guru-Guru TKJ</h2>
+
+		<div class="container swiper">
+			<div class="card-wrapper">
+				<ul class="card-list swiper-wrapper">
+
+					{% for g in guru %}
+					<li class="card-item swiper-slide">
+						<div class="card-link guru-card">
+							<img src="{{ g.img }}" class="foto-kubah">
+
+							<div class="nama-box">{{ g.nama }}</div>
+							<div class="mapel-box">{{ g.mapel }}</div>
+						</div>
+					</li>
+					{% endfor %}
+
+				</ul>
+
+				<div class="swiper-pagination"></div>
+				<div class="swiper-button-prev"></div>
+				<div class="swiper-button-next"></div>
+			</div>
+		</div>
+
+		<p class="guru-footer-text">
+			Guru pengajar TKJ adalah guru yang hebat hebat
+		</p>
+	</section>
+	<section class="faq-section reveal">
+		<div class="accordion__content">
+			<h2 style="text-align: center; margin-bottom: 10px;">FaQ</h2>
+
+			{% for item in faq %}
+			<div class="accordion__item">
+			<header class="item__header">
+				<h4 class="item__question">{{ item.tanya }}</h4>
+				<div class="item__icon">
+				<i class='bx bx-chevron-down'></i>
+				</div>
+			</header>
+
+			<div class="item__content">
+				<p class="item__answer">{{ item.jawab }}</p>
+			</div>
+			</div>
+			{% endfor %}
+
+		</div>
+		</section>
+   
+	<footer id="kontak" class="main-footer reveal">
+		<div class="footer-column">
+			<div class="logo-container" style="height:80px;">
+				<div class="logo-icon">
+					<img src="{{ url_for('static', filename='photos/logo.PNG') }}" alt="logo">
+				</div>
+
+				<div class="logo-text">
+					<h1>
+						<span class="tkj">TKJ</span>
+						<span class="smart">Smart</span>
+					</h1>
+					<p class="subtitle">Teknik Komputer Dan Jaringan Pintar</p>
+				</div>
+			</div>
+			<br>
+			<p class="footer-text">kalau ada pertanyaan silahkan hubungi kami</p>
+			<p class="footer-address">
+				Jl. Mastrip No.153 - Kec. Kanigaran - Kota Probolinggo - Jawa Timur
+			</p>
+		</div>
+
+		<div class="footer-column center">
+			<h3>Media Sosial</h3>
+			<div class="social-links">
+				<a href="https://www.instagram.com/smknegeri2probolinggo/" target="_blank">
+					<img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+					<span>Instagram</span>
+				</a>
+				<a href="https://web.facebook.com/smkn2kotaprobolinggo/" target="_blank">
+					<img src="https://cdn-icons-png.flaticon.com/512/174/174848.png" alt="Facebook">
+					<span>Facebook</span>
+				</a>
+				<a href="https://www.youtube.com/@smknegeri2probolinggo" target="_blank">
+					<img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+					<span>YouTube</span>
+				</a>
+			</div>
+		</div>
+
+		<div class="footer-column">
+			<h3>Contact Person</h3>
+			<ul class="contact-list">
+				<li><strong>Alfian :</strong> 0821-3151-5361</li>
+				<li><strong>Aditya   :</strong> 0852-3699-8884</li>
+				<li><strong>Email:</strong> info@smkn2-pbl.sch.id</li>
+			</ul>
+		</div>
+	</footer>
+	<footer class="main-footer reveal">
+		<div class="footer-bottom">
+			<p>2026 Made with 🔥 from Probolinggo</p>
+		</div>
+	</footer>
+	<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+	<script>
+		// Ambil data dari Python
+		const dataGuru = {{ guru | tojson }};
+		let centerIndex = 1; 
+
+		function renderGuru() {
+			const display = document.getElementById('guru-display');
+			if (!display) return;
+        
+			display.innerHTML = ''; 
+
+			const offsets = [-2, -1, 0, 1, 2];
+        
+			offsets.forEach(offset => {
+				let targetIndex = (centerIndex + offset + dataGuru.length) % dataGuru.length;
+				const g = dataGuru[targetIndex];
+            
+				const statusClass = (offset === 0) ? 'focus' : 'side';
+            
+				display.innerHTML += `
+					<div class="card-guru ${statusClass}">
+						<img src="${g.img}" class="foto-kubah">
+						<div class="nama-box">${g.nama}</div>
+						<div class="mapel-box">${g.mapel}</div>
+					</div>
+				`;
+			});
+        
+			// CEK DI CONSOLE BROWSER (Tekan F12)
+			console.log("Guru tengah sekarang index ke: ", centerIndex);
+			console.log("Nama guru tengah: ", dataGuru[centerIndex].nama);
+		}
+
+		function moveSlider(direction) {
+			centerIndex = (centerIndex + direction + dataGuru.length) % dataGuru.length;
+			renderGuru();
+		}
+
+		// Jalankan pertama kali saat halaman dimuat
+		window.onload = renderGuru;
+	</script>
+	<script>
+		const radios = document.querySelectorAll('input[name="radio-card"]');
+		const bg = document.querySelector('.fitur-bg');
+
+		function updateBackground() {
+			const active = document.querySelector('input[name="radio-card"]:checked');
+			if (!active) return;
+
+			const img = active.dataset.img;
+
+			bg.style.backgroundImage = `url('${img}')`;
+		}
+
+		// saat load
+		window.addEventListener('load', updateBackground);
+
+		// saat ganti
+		radios.forEach(r => {
+			r.addEventListener('change', updateBackground);
+		});
+	</script>
+	<script>
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				// Jika elemen masuk ke area pandang (viewport)
+				if (entry.isIntersecting) {
+					entry.target.classList.add('active');
+				} else {
+					// Opsional: hapus baris di bawah jika ingin animasi hanya sekali saja
+					// entry.target.classList.remove('active'); 
+				}
+			});
+		}, {
+			threshold: 0.1 // Animasi mulai saat 10% elemen terlihat
+		});
+
+		// Cari semua elemen dengan class 'reveal' dan jalankan pengamat (observer)
+		const revealElements = document.querySelectorAll('.reveal');
+		revealElements.forEach((el) => observer.observe(el));
+	</script>
+	<script>
+		const radiosAuto = document.querySelectorAll('input[name="radio-card"]');
+		let currentIndex = 0;
+
+		function autoSlide() {
+			// hapus checked lama
+			radiosAuto[currentIndex].checked = false;
+
+			// pindah ke index berikutnya
+			currentIndex = (currentIndex + 1) % radiosAuto.length;
+
+			// set checked baru
+			radiosAuto[currentIndex].checked = true;
+
+			// update background (penting!)
+			const event = new Event('change');
+			radiosAuto[currentIndex].dispatchEvent(event);
+		}
+
+		// jalan tiap 7 detik (7000 ms)
+		setInterval(autoSlide, 5000);
+	</script>
+	<script>
+		new Swiper('.card-wrapper', {  
+			loop: true,
+			speed: 600,
+
+			centeredSlides: true,
+			centeredSlidesBounds: true,
+
+			slidesPerView: 7,
+			spaceBetween: 25,
+
+			grabCursor: true,
+
+			autoplay: {
+				delay: 3000,
+				disableOnInteraction: false,
+			},
+
+			navigation: {  
+				nextEl: '.swiper-button-next',  
+				prevEl: '.swiper-button-prev',  
+			},
+
+			breakpoints: {
+				0: { slidesPerView: 1 },
+				768: { slidesPerView: 3 },
+				1024: { slidesPerView: 5 },
+				1024: { slidesPerView: 5 },
+				1280: { slidesPerView: 5 },
+			}
+		});
+	</script>
+	<script>
+		const accordionBtns = document.querySelectorAll(".item__header");
+
+		accordionBtns.forEach((header) => {
+		header.addEventListener("click", function () {
+
+			const item = this.parentElement;
+			const content = this.nextElementSibling;
+
+			// 🔥 Tutup semua (optional - biar kayak accordion beneran)
+			document.querySelectorAll(".accordion__item").forEach(i => {
+			if (i !== item) {
+				i.classList.remove("active");
+				i.querySelector(".item__content").style.maxHeight = null;
+			}
+			});
+
+			// toggle current
+			item.classList.toggle("active");
+
+			if (content.style.maxHeight) {
+			content.style.maxHeight = null;
+			} else {
+			content.style.maxHeight = content.scrollHeight + "px";
+			}
+
+		});
+		});
+		</script>
+</body>
+</html>

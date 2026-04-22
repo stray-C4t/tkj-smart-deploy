@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - TKJ Smart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Smart Admin</h2>
+        <nav>
+            <a href="/admin" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="/dashboard"><i class="fas fa-external-link-alt"></i> Lihat Website</a>
+            <hr>
+            <a href="#" class="logout-link" onclick="openLogoutModal()"><i class="fas fa-sign-out-alt"></i> Keluar</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>Manajemen Konten</h1>
+            <div class="btn-group">
+                <a href="/admin/add-modul" class="btn btn-primary">
+                    <i class="fas fa-book"></i> Modul
+                </a>
+                <a href="/admin/add-video" class="btn btn-success">
+                    <i class="fas fa-video"></i> Video
+                </a>
+                <a href="/admin/add-account" class="btn btn-info">
+                    <i class="fas fa-user-plus"></i> Akun
+                </a>
+                <a href="{{ url_for('add_quiz') }}" class="btn btn-masyaallah">
+                    <i class="fas fa-lightbulb"></i> Quiz
+                </a>
+            </div>
+        </div>
+
+        <!-- 📚 MODUL -->
+        <div class="section-card">
+            <h3>Daftar Modul</h3>
+            <a href="/admin/add-modul" class="btn btn-primary" style="margin-bottom: 15px; display: inline-block;">
+                + Tambah Modul
+            </a>
+            <p class="data-info">
+                terdapat total {{ total_modul }} modul
+            </p>
+            <form method="GET" class="search-box">
+                <input 
+                    type="text" 
+                    id="search-modul" 
+                    placeholder="Cari modul..." 
+                    style="width:100%; padding:10px; margin-bottom:15px;">"
+                >
+                <button type="submit">Cari</button>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Judul</th>
+                        <th>Kategori</th>
+                        <th>Aksi</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody id="modulTable">
+                    {% for m in modules %}
+                    <tr>
+                        <td>{{ m.judul }}</td>
+                        <td><span class="badge">{{ m.kategori }}</span></td>
+                        <td>
+                            <a href="/admin/delete-modul/{{ m.id }}" class="btn-icon delete" onclick="return confirm('Hapus modul?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                        <td>
+							<a href="/admin/edit-modul/{{ m.id }}">
+								<i class="fas fa-edit"></i>
+							</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="pagination">
+                {% for p in range(1, modul_pages + 1) %}
+                    <a href="?modul_page={{ p }}" class="{% if p == modul_page %}active{% endif %}">
+                        {{ p }}
+                    </a>
+
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- 🎥 VIDEO -->
+        <div class="section-card">
+            <h3>Daftar Video</h3>
+            <a href="/admin/add-video" class="btn btn-primary" style="margin-bottom: 15px; display: inline-block;">
+                + Tambah Video
+            </a>
+            <p class="data-info">terdapat total {{ total_video }} video</p>
+            <form method="GET" class="search-box">
+                <input type="text" name="video_search" placeholder="Cari video..." value="{{ request.args.get('video_search','') }}" id="search-video">
+                <button type="submit">Cari</button>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Judul</th>
+                        <th>YouTube ID</th>
+                        <th>Aksi</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody id="videoTable">
+                    {% for v in videos %}
+                    <tr>
+                        <td>{{ v.judul }}</td>
+                        <td><code>{{ v.youtube_id }}</code></td>
+                        <td>
+                            <a href="/admin/delete-video/{{ v.id }}" class="btn-icon delete" onclick="return confirm('Hapus video?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                        <td>
+							<a href="/admin/edit-video/{{ v.id }}">
+								<i class="fas fa-edit"></i>
+							</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="pagination">
+                {% for p in range(1, video_pages + 1) %}
+                    <a href="?video_page={{ p }}" class="{% if p == video_page %}active{% endif %}">
+                        {{ p }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- 🧠 QUIZ -->
+        <div class="section-card">
+            <h3>Daftar Latihan Soal (Quiz)</h3>
+            <p class="data-info">
+                terdapat total {{ total_quiz }} quiz
+            </p>
+            <!-- 🔥 GANTI ROUTE -->
+            <a href="{{ url_for('add_quiz') }}" class="btn btn-primary" style="margin-bottom: 15px; display: inline-block;">
+                + Tambah Latihan
+            </a>
+            <form method="GET" class="search-box">
+                <input 
+                    type="text" 
+                    name="quiz_search" 
+                    placeholder="Cari quiz..." 
+                    value="{{ quiz_search }}"
+                    id="search-quiz"
+                >
+                <button type="submit">Cari</button>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Judul Latihan</th>
+                        <th>Jumlah Soal</th>
+                        <th>Aksi</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody id="quizTable">
+                    {% for q in quizzes %}
+                    <tr>
+                        <td><strong>{{ q.judul }}</strong></td>
+                        <td>
+                            <span class="badge">{{ q.jumlah_soal }} Soal</span>
+                        </td>
+                        <td>
+                            <!-- ❌ HAPUS add-questions -->
+                            <!-- 🗑️ DELETE tetap -->
+                            <a href="/admin/delete-latihan/{{ q.id }}" 
+                               class="btn-icon delete" 
+                               onclick="return confirm('Hapus latihan?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                        <td>
+							<a href="/admin/edit-quiz/{{ q.id }}" style="color:#3498db;">
+								<i class="fas fa-edit"></i>
+							</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="pagination">
+                {% for p in range(1, quiz_pages + 1) %}
+                    <a href="?quiz_page={{ p }}" class="{% if p == quiz_page %}active{% endif %}">
+                        {{ p }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- 👤 USER -->
+        <div class="section-card">
+            <h3>Daftar Siswa Terdaftar</h3>
+            <a href="/admin/add-account" class="btn btn-primary" style="margin-bottom: 15px; display: inline-block;">
+                + Tambah Akun
+            </a>
+            <p class="data-info">
+                terdapat total {{ total_user }} user
+            </p>
+            <form method="GET" class="search-box">
+                <input type="text" name="user_search" placeholder="Cari nama atau email..." value="{{ user_search }}" id="search-user">
+                <button type="submit">Cari</button>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Nama Lengkap</th>
+                        <th>Role</th>
+                        <th>Aksi</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody id="userTable">
+                    {% for u in users %}
+                    <tr>
+                        <td>{{ u.username }}</td>
+                        <td>{{ u.nama_lengkap }}</td>
+                        <td><span class="badge">{{ u.role }}</span></td>
+                        <td>
+                            <a href="/admin/delete-user/{{ u.id }}" 
+                               class="btn-icon delete" 
+                               onclick="return confirm('Hapus akun ini?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                        <td>
+							<a href="/admin/edit-user/{{ u.id }}">
+								<i class="fas fa-edit"></i>
+							</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="pagination">
+                {% for p in range(1, user_pages + 1) %}
+                    <a href="?user_page={{ p }}" class="{% if p == user_page %}active{% endif %}">
+                        {{ p }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+    <div id="logoutModal" class="modal-overlay">
+		<div class="modal-box">
+			<div class="modal-icon">
+				<i class="fas fa-exclamation-circle"></i>
+			</div>
+			<h2>Yakin ingin keluar?</h2>
+			<p>Kamu akan keluar dari sesi pembelajaran saat ini.</p>
+			<div class="modal-buttons">
+				<button class="btn-cancel" onclick="closeLogoutModal()">Batal</button>
+				<a href="/" class="btn-confirm">Ya, Keluar</a>
+			</div>
+		</div>
+	</div>
+    <script>
+        function setupSearch(inputId, tableId, url, renderRow) {
+            const input = document.getElementById(inputId);
+            const table = document.getElementById(tableId);
+
+            let timeout = null;
+
+            input.addEventListener("keyup", function () {
+                clearTimeout(timeout);
+
+                timeout = setTimeout(() => {
+                    fetch(`${url}?q=${this.value}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            table.innerHTML = "";
+
+                            if (data.length === 0) {
+                                table.innerHTML = `
+                                    <tr>
+                                        <td colspan="5" style="text-align:center;">
+                                            Tidak ditemukan
+                                        </td>
+                                    </tr>
+                                `;
+                                return;
+                            }
+
+                            data.forEach(item => {
+                                table.innerHTML += renderRow(item);
+                            });
+                        });
+                }, 300);
+            });
+        }
+    </script>
+    <script>
+        setupSearch(
+            "search-video",
+            "videoTable",
+            "/admin/search-video",
+            (v) => `
+                <tr>
+                    <td>${v.judul}</td>
+                    <td><code>${v.youtube_id}</code></td>
+                    <td>
+                        <a href="/admin/delete-video/${v.id}" class="btn-icon delete">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/admin/edit-video/${v.id}">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            `
+        );
+    </script>
+    <script>
+        setupSearch(
+            "search-quiz",
+            "quizTable",
+            "/admin/search-quiz",
+            (q) => `
+                <tr>
+                    <td>${q.judul}</td>
+                    <td><span class="badge">${q.jumlah_soal} Soal</span></td>
+                    <td>
+                        <a href="/admin/delete-latihan/${q.id}" class="btn-icon delete">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/admin/edit-quiz/${q.id}">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            `
+        );
+    </script>
+    <script>
+        setupSearch(
+            "search-user",
+            "userTable",
+            "/admin/search-user",
+            (u) => `
+                <tr>
+                    <td>${u.username}</td>
+                    <td>${u.nama}</td>
+                    <td><span class="badge">${u.role}</span></td>
+                    <td>
+                        <a href="/admin/delete-user/${u.id}" class="btn-icon delete">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/admin/edit-user/${u.id}">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            `
+        );
+    </script>
+    <script>
+		function openLogoutModal() {
+			document.getElementById("logoutModal").style.display = "flex";
+		}
+
+		function closeLogoutModal() {
+			document.getElementById("logoutModal").style.display = "none";
+		}
+
+		// Tutup modal jika user klik area luar kotak
+		window.onclick = function(event) {
+			let modal = document.getElementById("logoutModal");
+			if (event.target == modal) {
+				modal.style.display = "none";
+			}
+		}
+	</script>
+</body>
+</html>

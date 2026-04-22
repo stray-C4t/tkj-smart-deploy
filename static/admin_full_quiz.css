@@ -1,0 +1,177 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* BODY */
+body {
+    display: flex;
+    background: #f4f7f6;
+    color: #2c3e50;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 230px;
+    height: 100vh;
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+    position: fixed;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar nav a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: 0.2s;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+    background: #34495e;
+}
+
+.logout-link {
+    margin-top: 20px;
+    display: block;
+}
+
+/* MAIN */
+.main-content {
+    margin-left: 230px;
+    margin-top: 30px;
+    width: 100%;
+    padding: 20px 30px;
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* BUTTON */
+.btn-group a {
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-left: 5px;
+    color: white;
+    font-size: 14px;
+}
+
+.btn-primary { background: #3498db; }
+.btn-success { background: #2ecc71; }
+.btn-info { background: #1abc9c; }
+.btn-masyaallah { background: #9b59b6; }
+
+/* CARD */
+.section-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin-top : 10px;
+}
+
+/* TABLE */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table thead {
+    background: #ecf0f1;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: left;
+}
+
+table tr {
+    border-bottom: 1px solid #eee;
+}
+
+/* BADGE */
+.badge {
+    background: #3498db;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+/* ICON BUTTON */
+.btn-icon {
+    color: red;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+/* FORM */
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #3498db;
+}
+
+/* BUTTON */
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* LIST SOAL */
+#list-soal li {
+    background: #ecf0f1;
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 6px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+}
+
+.btn-group a:hover {
+    transform: translateY(-2px);
+    transition: 0.2s;
+}
+
+.section-card:hover {
+    transform: translateY(-3px);
+    transition: 0.2s;
+}

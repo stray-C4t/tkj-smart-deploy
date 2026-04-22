@@ -1,0 +1,778 @@
+html {
+    scroll-behavior: smooth;
+}
+* {
+    margin: 0; padding: 0; box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif; background-color: #f0f2f5; color: #333;margin: 0;padding: 0; overflow-x: hidden;
+}
+
+/* Navbar */
+nav {
+	position: sticky;
+	top : 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 15px 40px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 100;
+}
+
+.nav-links a {
+    text-decoration: none; margin-left: 20px; color: #333; font-weight: bold;
+}
+
+/* Hero Section (Gambar 1) */
+.hero {
+    position: relative; height: 85vh; display: flex; align-items: center; color: white;
+}
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Penting: agar video menutupi area tanpa gepeng */
+    z-index: -2;
+}
+.overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: -1;
+}
+.hero-content { padding-left: 50px; max-width: 600px; }
+
+/* Tentang (Gambar 2) */
+.about { display: flex; padding: 80px 50px; background: white; align-items: center; gap: 50px; }
+.about-grid { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.about-grid img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; }
+
+/* Fitur (Gambar 3) */
+.fitur-section { padding: 80px 50px; text-align: center; }
+
+/* Guru (Gambar 4) */
+.guru-section {
+    padding: 80px 20px;
+    text-align: center;
+    background-color: #f4f7f6;
+}
+.guru-section {
+    padding: 80px 20px;
+    text-align: center;
+    background-color: #f4f7f6;
+}
+
+.slider-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin: 40px 0;
+}
+
+/* Base Card Guru */
+.card-guru {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.5s ease;
+}
+
+.foto-kubah {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+
+    border-radius: 100px 100px 0 0;
+    border: 4px solid #fff;
+
+    background: #ccc;
+}
+
+.nama-box {
+    width: 150px;
+    background-color: #007bff;
+    color: white;
+
+    padding: 10px 5px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+}
+
+.mapel-box {
+    width: 180px;
+    background-color: #e0e0e0;
+    color: #333;
+
+    padding: 8px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+/* Efek Sorot untuk Guru di Tengah */
+.card-guru.focus {
+    transform: scale(1.25);
+    z-index: 10;
+}
+
+.card-guru.side {
+    opacity: 0.5;
+    transform: scale(0.9);
+}
+
+.nav-btn {
+    font-size: 50px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #007bff;
+    transition: 0.3s;
+}
+
+.nav-btn:hover { color: #0056b3; }
+
+.guru-footer-text {
+    margin-top: 30px;
+    font-style: italic;
+    color: #666;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* FAQ (Gambar 5) */
+.faq-section { padding: 80px 50px; max-width: 800px; margin: 0 auto; }
+details { background: white; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; }
+/* isi jawaban */
+details p {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+/* saat terbuka */
+details[open] p {
+    max-height: 200px; /* sesuaikan panjang konten */
+    opacity: 1;
+}
+summary { padding: 15px; font-weight: bold; cursor: pointer; list-style: none; display: flex; justify-content: space-between; }
+
+/* Footer (Gambar 6) */
+.main-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 60px 50px;
+    background-color: #ffffff;
+    border-top: 2px solid #eeeeee;
+    gap: 30px;
+}
+
+.footer-column {
+    flex: 1; /* Membuat ketiga bagian punya lebar yang sama */
+}
+
+.footer-column.center {
+    text-align: center;
+}
+
+.footer-column h3 {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+/* Styling Bagian 1 */
+.footer-logo {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+.footer-text {
+    font-style: italic;
+    margin-bottom: 10px;
+    color: #666;
+}
+.footer-address {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #888;
+}
+
+/* Styling Bagian 2 (Social Media) */
+.social-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+.social-links a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+}
+.social-links a:hover {
+    color: #007bff;
+    transform: translateX(5px);
+}
+.social-links img {
+    width: 24px;
+    height: 24px;
+}
+
+/* Styling Bagian 3 (Contact) */
+.contact-list {
+    list-style: none;
+    padding: 0;
+}
+.contact-list li {
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    color: #555;
+}
+/* Container utama footer */
+.main-footer {
+    background-color: #ffffff; /* Ganti dengan warna background area medsos kamu */
+    padding-top: 30px;
+    width: 100%;
+    justify-content : center;
+}
+
+/* Bagian bawah yang ingin dibuat ke tengah */
+.footer-bottom {
+    background-color: #ffffff; /* Samakan dengan warna di atas agar menyatu */
+    padding: 0px 0;
+    text-align: center; /* Membuat teks berada di tengah */
+    border-top: 1px solid #eeeeee; /* Opsional: garis tipis pemisah */
+    margin-top: 0px;
+    margin-bottom : 0px;
+}
+
+.footer-bottom p {
+    margin: 0;
+    font-size: 1rem;
+    color: #2c3e50;
+    font-weight: 600; /* Agar sedikit tebal seperti di gambar */
+}
+/* Container utama harus relative agar anak-anaknya bisa absolute */
+.about-container {
+    position: relative;
+    width: 100%;
+    min-height: 600px;
+    padding: 100px 50px;
+    display: flex;
+    justify-content: flex-end; /* Memindahkan kotak biru ke kanan */
+    align-items: center;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+/* Kotak Biru (Penjelasan) */
+.explanation-box {
+    width: 50%; /* Lebar kotak biru */
+    padding: 40px;
+    background-color: #fff;
+    border: 1px solid #000000; /* Warna biru sesuai coretan */
+    border-radius: 15px;
+    z-index: 10;
+    box-shadow: 10px 10px 0px rgba(0, 0, 255, 0.1);
+}
+
+.explanation-box h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+/* Styling Foto-foto Melayang (Bangun Merah) */
+.photo {
+    position: absolute;
+    border: 1px solid #000000; /* Warna merah sesuai coretan */
+    border-radius: 8px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    z-index: 5;
+    background: #fff;
+}
+
+.photo:hover {
+    transform: scale(1.1) rotate(5deg);
+    z-index: 20;
+}
+
+/* Mengatur posisi masing-masing foto secara random sesuai gambar */
+.p1 { width: 125px; height: 187.5px; left: 5%; top: 10%; transform: rotate(-5deg); }
+.p2 { width: 126.5px; height: 126.5px; left: 25%; top: 7%; transform: rotate(10deg); }
+.p3 { width: 200px; height: 165px; left: 10%; bottom: 15%; transform: rotate(-14deg); }
+.p4 { width: 150px; height: 150px; left: 30%; bottom: 10%; transform: rotate(10deg); }
+.p5 { width: 126.5px; height: 172.5px; left: 35%; top: 30%; transform: rotate(3deg); }
+.p6 { width: 130px; height: 90px; left: 18%; bottom: 50%; transform: rotate(20deg); } /* Bentuk lingkaran */
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: true;
+}
+/* general styling */
+html {
+	color-scheme: dark light;
+}
+img{
+  max-width: 100%;
+}
+/* Hide radio buttons */
+input[type="radio"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.cards{
+  --img-w: 250px;
+  --duration: 300ms;
+  --img-easing: cubic-bezier(0.34, 1.56, 0.64, 1);
+  width: min(100% - 4rem, 800px);
+  margin-inline: auto;
+  display: grid;
+  margin-top: 50px;
+  gap: 10px;
+  
+  counter-reset: my-counter;
+}
+
+.card{
+  --cards-grid-cols: auto;
+  --cards-grid-rows: var(--img-w) auto;
+  --cards-grid-gap: 2rem;
+  --cards-footer-justify: center;
+  
+  grid-area: 1/1;
+  display: grid;
+ place-items: center; 
+  grid-template-columns: var(--cards-grid-cols);
+  grid-template-rows: var(--cards-grid-rows);
+  gap: var(--cards-grid-gap);
+  
+}
+
+@media (600px < width){
+  .card{
+      --cards-grid-cols: var(--img-w) auto;
+      --cards-grid-rows: auto;
+      --cards-grid-gap: 4rem;
+      --cards-footer-justify: start;
+  }
+}
+
+
+.card-img{
+  width: 250px;
+  height: 250px;
+  aspect-ratio: 1 / 1 ;
+  rotate: var(--angle, 0deg);
+  border-radius: 10px;
+  border: 3px solid #FFF;
+  overflow: hidden;
+  transform-origin: center;
+  object-fit: cover;
+  box-shadow: 0 0 5px 3px rgba(0 0 0 / .05);
+}
+
+
+
+input:nth-of-type(1):checked + .card ~ .card > .card-img{
+  animation: straighten-img-1 calc(var(--duration) * 2) forwards;
+  animation-timing-function: var(--img-easing);
+}
+.card:has(~input:nth-of-type(2):checked) > .card-img,
+input:nth-of-type(2):checked + .card ~ .card > .card-img{
+  animation: straighten-img-2 calc(var(--duration) * 2) forwards;
+  animation-timing-function: var(--img-easing);
+}
+.card:has(~input:nth-of-type(3):checked) > .card-img,
+input:nth-of-type(3):checked + .card ~ .card > .card-img{
+  animation: straighten-img-3 calc(var(--duration) * 2) forwards;
+  animation-timing-function: var(--img-easing);
+}
+.card:has(~input:nth-of-type(4):checked) > .card-img,
+input:nth-of-type(4):checked + .card ~ .card > .card-img{
+  animation: straighten-img-4 calc(var(--duration) * 2) forwards;
+  animation-timing-function: var(--img-easing);
+}
+.card:has(~input:nth-of-type(5):checked) > .card-img,
+input:nth-of-type(5):checked + .card ~ .card > .card-img{
+  animation: straighten-img-5 calc(var(--duration) * 2) forwards;
+  animation-timing-function: var(--img-easing);
+}
+.card:has(~input:nth-of-type(6):checked) > .card-img,
+input:nth-of-type(6):checked + .card ~ .card > .card-img{
+  animation: straighten-img-6 calc(var(--duration) * 2) forwards;
+  animation-timing-function: var(--img-easing);
+}
+.card:has(~input:nth-of-type(7):checked) > .card-img,
+input:nth-of-type(7):checked + .card ~ .card > .card-img{
+  animation: straighten-img-7 calc(var(--duration) * 2) forwards;
+  animation-timing-function: var(--img-easing);
+}
+/* as CSS can't remove animations, we change the animation according to which checkbox is checked  - all animations are the same (would be simpler with SCSS) */
+@keyframes straighten-img-1 { 50%{ --angle: 0deg;} }
+@keyframes straighten-img-2 { 50%{ --angle: 0deg;} }
+@keyframes straighten-img-3 { 50%{ --angle: 0deg;} }
+@keyframes straighten-img-4 { 50%{ --angle: 0deg;} }
+@keyframes straighten-img-5 { 50%{ --angle: 0deg;} }
+@keyframes straighten-img-6 { 50%{ --angle: 0deg;} }
+@keyframes straighten-img-7 { 50%{ --angle: 0deg;} }
+
+
+/* stacking order - these are updated according to which card is selected */
+.card{
+  z-index: -1;
+}
+input:checked + .card{
+  z-index:10 !important;
+}
+/* next card checked - place behind */
+.card:has(+input:checked){
+  z-index:9;
+}
+/* next card +1 checked - place behind */
+.card:has(+input + .card + input:checked){
+  z-index:8;
+}
+/* next card +2 checked - place behind */
+.card:has(+input + .card +input + .card + input:checked){
+  z-index:7;
+}
+/* next card +3 checked - place behind */
+.card:has(+input + .card +input + .card +input + .card + input:checked){
+  z-index:6;
+}
+/* next card +4 checked - place behind */
+.card:has(+input + .card +input + .card +input + .card +input + .card + input:checked){
+  z-index:5;
+}
+/* next card +5 checked - place behind */
+.card:has(+input + .card +input + .card +input +input + .card +input + .card +input + .card + input:checked){
+  z-index:4;
+}
+/* next card +6 checked - place behind */
+.card:has(+input + .card +input + .card +input  + .card +input +input + .card +input + .card +input + .card + input:checked){
+  z-index:3;
+}
+
+.card-data{
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* 🔥 atur jarak antar elemen */
+  padding: 10px 0;
+  width: 100%;
+  height: 100%;
+}
+.card-data > .card-num{
+  opacity: var(--data-opacity, 0);
+  font-size: .8rem;
+  color: #666;
+}
+.card-data > p{
+  font-size: 0.9rem;
+
+}
+.card-data > h2,
+.card-data > p{
+  transition: var(--duration) ease-in-out;
+  transition-delay: var(--data-delay,0ms);
+  opacity: var(--data-opacity, 0);
+  translate: 0 var(--data-y, 20px);
+  justify-content: space-between;
+}
+.card-data > footer{
+  display: flex;
+  justify-content: var(--cards-footer-justify);
+  gap: 2rem;
+  width: 100%;
+}
+.card-data footer label{
+  margin-block-start: auto;
+  cursor: pointer;
+  pointer-events: var(--card-events, none);
+  opacity: var(--data-opacity, 0);
+  transition: color var(--duration) ease-in-out;
+  color: var(--label-clr-txt,#000);
+  background-color:var(--label-clr-bg,#EEE);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  aspect-ratio: 1/1;
+  display: grid;
+  place-content: center;
+  transition: background-color 300ms ease-in-out,color  300ms ease-in-out;
+}
+
+
+input:checked:focus-visible + .card > .card-data > footer label,
+.card-data > footer label:hover{
+  --label-clr-txt: #FFF;
+  --label-clr-bg: steelblue;
+}
+
+input:checked + .card{
+  --data-opacity: 1;
+  --data-y: 0;
+  --data-delay: var(--duration);
+  --card-events: auto;
+  transition: z-index;
+  transition-delay: 300ms;
+  /*z-index: 1;*/
+}
+
+input:checked +.card > .card-img{
+  animation: reveal-img calc(var(--duration) * 2) forwards;
+}
+
+@keyframes reveal-img{
+  50%{
+    translate: -150% 0;
+    --angle: 0deg;
+  }
+}
+
+/* 🔥 BACKGROUND SECTION */
+.fitur-section {
+    position: relative;
+    overflow: hidden;
+    padding: 100px 50px;
+    min-height: 500px;
+    border-radius: 20px; /* biar keliatan kotak */
+    margin: 50px auto;
+    width: 90%;
+    z-index: 1;
+}
+
+.fitur-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    filter: blur(20px) brightness(0.6);
+    z-index: 0;
+    transition: 0.5s ease;
+    transform: scale(1.1); /* biar blur gak kepotong */
+}
+
+/* biar konten di atas background */
+.fitur-section h2,
+.cards {
+    position: relative;
+    z-index: 2;
+}
+
+/* 🔥 BUTTON */
+.btn-mulai {
+    display: block;
+    margin-top: auto;
+    padding: 10px 18px;
+    background: #3498db;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+    width: 200px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.btn-mulai:hover {
+    background: #0056b3;
+}
+
+/* 🔥 WRAPPER TOMBOL */
+.card-actions {
+    margin-top: 15px; /* dorong ke bawah */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* INI YANG BIKIN CENTER */
+    gap: 10px;
+}
+
+/* footer tombol < > */
+.card-actions footer {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.card-actions footer label:hover {
+    background-color: steelblue;
+    color: #fff;
+    transform: scale(1.1);
+}
+
+.guru-section {
+    padding: 80px 20px;
+    text-align: center;
+    background-color: #f4f7f6;
+}
+
+.card-wrapper {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px 10px;
+    overflow: visible;
+}
+
+.card-item {
+    list-style: none;
+}
+
+.card-link {
+    display: block;
+    background: #fff;
+    padding: 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    box-shadow: 0 10px 10px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.card-link:hover {
+    transform: translateY(-5px);
+}
+
+.card-title {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+    color: #007bff;
+}
+
+.swiper-pagination-bullet {
+    background: #007bff;
+}
+.card-link {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.guru-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+}
+
+/* semua slide default */
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+
+    transition: all 0.4s ease;
+    opacity: 0.4;
+    transform: scale(0.7);
+    filter: blur(3px);
+}
+
+/* tengah (fokus) */
+.swiper-slide-active {
+    opacity: 1;
+    transform: scale(1.2);
+    filter: blur(0);
+    z-index: 10;
+}
+
+/* sebelah kanan & kiri langsung */
+.swiper-slide-next,
+.swiper-slide-prev {
+    opacity: 0.7;
+    transform: scale(0.9);
+    filter: blur(1px);
+}
+
+/* lebih jauh lagi */
+.swiper-slide-next + .swiper-slide,
+.swiper-slide-prev{
+    opacity: 0.5;
+    transform: scale(0.8);
+    filter: blur(2px);
+}
+
+.swiper-slide-active .foto-kubah {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* FAQ ACCORDION */
+.accordion__content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #fff;
+  box-shadow: 0px 4px 16px rgba(0,0,0,0.09);
+  border-radius: 10px;
+}
+
+.accordion__item {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  background: #f9f9f9;
+  transition: 0.3s;
+}
+
+.item__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.item__question {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.item__icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  background: #e0e0e0;
+  border-radius: 6px;
+}
+
+.item__icon i {
+  transition: 0.3s;
+}
+
+/* rotate icon */
+.accordion__item.active .item__icon i {
+  transform: rotate(180deg);
+}
+
+/* CONTENT */
+.item__content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  padding: 0 15px;
+}
+
+.item__answer {
+  padding: 10px 0;
+  opacity: 0.8;
+}

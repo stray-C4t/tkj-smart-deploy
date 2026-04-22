@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buat Quiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin_full_quiz.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+
+<body style="display:flex; justify-content:center; align-items:center; min-height:100vh; font-family:sans-serif; margin-top:30px; margin-bottom:30px;" class="login-body">
+    <div class="finisher-header" id="full-bg"></div>
+    <div style="width:700px; background:#fff; padding:25px; border-radius:12px; box-shadow:0 5px 20px rgba(0,0,0,0.1);">
+
+        <h2 style="text-align:center;">Buat Latihan + Soal</h2>
+
+        <!-- 🧠 JUDUL -->
+        <label>Judul Latihan</label>
+        <input type="text" id="judul" placeholder="Contoh: Dasar MikroTik" style="width:100%; padding:10px; margin-bottom:15px;">
+
+        <!-- 🎨 ICON -->
+        <label>Pilih Icon</label>
+        <select id="icon" style="width:100%; padding:10px; margin-bottom:20px;">
+            <option value="fas fa-network-wired">🌐 Network</option>
+            <option value="fas fa-server">🖥️ Server</option>
+            <option value="fas fa-microchip">💾 Chip</option>
+            <option value="fab fa-linux">🐧 Linux</option>
+            <option value="fas fa-shield-alt">🛡️ Security</option>
+        </select>
+
+        <!-- 📋 LIST SOAL -->
+        <div style="background:#f9f9f9; padding:10px; border-radius:10px; margin-bottom:20px;">
+            <b>Daftar Soal:</b>
+            <ul id="list-soal"></ul>
+        </div>
+
+        <hr>
+
+        <!-- 🧩 INPUT SOAL -->
+        <label>Pertanyaan</label>
+        <textarea id="pertanyaan" style="width:100%; height:80px; margin-bottom:10px;"></textarea>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <input id="a" placeholder="Opsi A">
+            <input id="b" placeholder="Opsi B">
+            <input id="c" placeholder="Opsi C">
+            <input id="d" placeholder="Opsi D">
+        </div>
+
+        <label style="margin-top:10px;">Jawaban Benar</label>
+        <select id="jawaban" style="width:100%; padding:10px; margin-bottom:15px;">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+        </select>
+
+        <button onclick="tambahSoal()" style="width:100%; padding:10px; background:#3498db; color:white; border:none; border-radius:8px;">
+            + Tambah Soal
+        </button>
+
+        <hr style="margin:20px 0;">
+
+        <button onclick="simpanSemua()" style="width:100%; padding:12px; background:#2ecc71; color:white; border:none; border-radius:8px;">
+            💾 Simpan Semua
+        </button>
+
+    </div>
+
+    <script>
+        let isEdit = {{ is_edit | tojson if is_edit else 'false' }};
+        let quizId = {{ quiz.id if quiz else 'null' }};
+        let questions = {{ questions | tojson if questions else '[]' }};
+
+        // LOAD DATA
+        window.onload = function() {
+            if (isEdit) {
+                document.getElementById("judul").value = "{{ quiz.judul }}";
+                document.getElementById("icon").value = "{{ quiz.icon }}";
+            }
+            renderList();
+        };
+
+        // TAMBAH SOAL
+        function tambahSoal() {
+            let pertanyaan = document.getElementById("pertanyaan").value;
+
+            if (!pertanyaan.trim()) {
+                alert("Pertanyaan tidak boleh kosong!");
+                return;
+            }
+
+            let q = {
+                pertanyaan: pertanyaan,
+                a: document.getElementById("a").value,
+                b: document.getElementById("b").value,
+                c: document.getElementById("c").value,
+                d: document.getElementById("d").value,
+                jawaban: document.getElementById("jawaban").value
+            };
+
+            questions.push(q);
+            renderList();
+
+            // reset input
+            document.getElementById("pertanyaan").value = "";
+            document.getElementById("a").value = "";
+            document.getElementById("b").value = "";
+            document.getElementById("c").value = "";
+            document.getElementById("d").value = "";
+        }
+
+        // HAPUS SOAL
+        function hapusSoal(index) {
+            questions.splice(index, 1);
+            renderList();
+        }
+
+        // RENDER LIST
+        function renderList() {
+            let list = document.getElementById("list-soal");
+            list.innerHTML = "";
+
+            questions.forEach((q, i) => {
+                let li = document.createElement("li");
+                li.innerHTML = `
+                    ${i+1}. ${q.pertanyaan}
+                    <button onclick="hapusSoal(${i})" style="margin-left:10px;">❌</button>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        // SIMPAN
+        function simpanSemua() {
+            let data = {
+                judul: document.getElementById("judul").value.trim(),
+                icon: document.getElementById("icon").value,
+                questions: questions
+            };
+
+            console.log("DEBUG:", data); // bantu debug kalau error lagi
+
+            if (data.judul === "" || questions.length === 0) {
+                alert("Judul dan soal harus diisi!");
+                return;
+            }
+
+            let url = isEdit 
+                ? `/admin/update-quiz/${quizId}`
+                : `/admin/save-full-quiz`;
+
+            fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => {
+            if (!res.ok) {
+                throw new Error("Server error: " + res.status);
+            }
+            return res.json();
+        })
+        .then(res => {
+            console.log("Response:", res);
+
+            alert("Berhasil disimpan!");
+            window.location.href = "/admin";
+        })
+        .catch(err => {
+            console.error("ERROR:", err);
+            alert("Terjadi error! Cek console (F12)");
+        });
+        }
+    </script>
+    <script src="{{ url_for('static', filename='finisher-header.es5.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        // Inisialisasi animasi
+        new FinisherHeader({
+          "count": 4,
+          "size": { "min": 1300, "max": 1500, "pulse": 0.1 },
+          "speed": { "x": { "min": 0.3, "max": 0.5 }, "y": { "min": 0, "max": 0.2 } },
+          "colors": {
+            "background": "#51d7ff",
+            "particles": ["#6384ff", "#56cdff", "#4875ff", "#7779ff"]
+          },
+          "blending": "lighten",
+          "opacity": { "center": 0.8, "edge": 0.2 },
+          "skew": 0,
+          "shapes": ["c", "t"]
+        });
+    </script>
+
+</body>
+</html>

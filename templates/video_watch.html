@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menonton: {{ v.judul }} - TKJ Smart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='video_watch.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="watch-container">
+        <main class="main-video">
+            <a href="/video" class="btn-back"><i class="fas fa-chevron-left"></i> Kembali</a>
+            
+            <div class="video-player">
+                <iframe src="https://www.youtube.com/embed/{{ v.youtube_id }}?rel=0&showinfo=0" 
+                        frameborder="0" allowfullscreen></iframe>
+            </div>
+
+            <div class="video-details">
+                <h1>{{ v.judul }}</h1>
+                <p class="vid-meta"><i class="fas fa-clock"></i> Durasi: {{ v.durasi }}</p>
+                <div class="vid-desc">
+                    {{ v.desc }}
+                </div>
+            </div>
+        </main>
+
+        <aside class="video-sidebar">
+            <h3>Video Lainnya</h3>
+            {% for s in saran %}
+            <a href="/video/watch/{{ s.id }}" class="sidebar-card">
+                <div class="side-thumb">
+                    <img src="{{ s.thumbnail }}" alt="{{ s.judul }}">
+                </div>
+                <div class="side-info">
+                    <h4>{{ s.judul }}</h4>
+                    <span>{{ s.durasi }}</span>
+                </div>
+            </a>
+            {% endfor %}
+        </aside>
+    </div>
+
+</body>
+</html>

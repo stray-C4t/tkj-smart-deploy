@@ -1,0 +1,160 @@
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fadeZoom 1s ease forwards;
+    position: relative;
+    z-index: 2;
+    overflow: hidden; /* penting biar shimmer nggak keluar */
+    width: fit-content;
+}
+
+/* SHIMMER FULL */
+.logo-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 60%;
+    height: 100%;
+    
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.4),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+    pointer-events: none;
+    animation: shimmerFull 3s infinite;
+}
+
+.logo-icon img {
+    width: 50px;
+    transform: translateY(50px);
+    opacity: 0;
+    animation: iconUp 0.8s ease forwards;
+    animation-delay: 0.5s;
+    display: block;
+}
+/* Text */
+
+.logo-text {
+	height:50px;
+}
+
+.logo-text h1 {
+    font-size: 24px;
+    margin: 0;
+    
+}
+
+.tkj {
+    color: #fbbf24;
+    opacity: 0;
+    transform: translateX(-50px);
+    display: inline-block;
+    animation: slideLeft 0.8s ease forwards;
+    animation-delay: 1s;
+    text-shadow: 0 0 10px rgba(251,191,36,0.5);
+}
+
+.smart {
+    color: #38bdf8;
+    opacity: 0;
+    transform: translateX(50px);
+    display: inline-block;
+    animation: slideRight 0.8s ease forwards;
+    animation-delay: 1.2s;
+    text-shadow: 0 0 10px rgba(56,189,248,0.5);
+}
+
+/* Subtitle */
+.subtitle {
+    color: #94a3b8;
+    margin-top: 10px;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+    animation-delay: 1.8s;
+}
+
+/* Animations */
+@keyframes fadeZoom {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes iconUp {
+    0% {
+        transform: translateY(60px);
+        opacity: 0;
+    }
+    70% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideLeft {
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideRight {
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.tkj::after,
+.smart::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0%;
+    height: 2px;
+    background: currentColor;
+    box-shadow: 0 0 8px currentColor;
+    animation: lineRun 1s ease forwards;
+}
+
+.tkj::after {
+    animation-delay: 1.2s;
+}
+
+.smart::after {
+    animation-delay: 1.4s;
+}
+
+@keyframes lineRun {
+    from { width: 0%; }
+    to { width: 100%; }
+}
+
+@keyframes shimmerFull {
+    0% {
+        left: -120%;
+    }
+    100% {
+        left: 150%;
+    }
+}

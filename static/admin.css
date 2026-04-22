@@ -1,0 +1,280 @@
+/* Reset Dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex; /* Membuat sidebar dan konten bersampingan */
+    background-color: #f4f7f9;
+    min-height: 100vh;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+    width: 260px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    position: fixed; /* Tetap di kiri saat scroll */
+    height: 100vh;
+}
+
+.sidebar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+    border-bottom: 1px solid #34495e;
+    padding-bottom: 10px;
+}
+
+.sidebar nav a {
+    display: block;
+    color: #bdc3c7;
+    text-decoration: none;
+    padding: 12px 15px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.sidebar nav a:hover, .sidebar nav a.active {
+    background-color: #34495e;
+    color: white;
+}
+
+.sidebar nav a i {
+    margin-right: 10px;
+    width: 20px;
+}
+
+.logout-link {
+    color: #e74c3c !important;
+    margin-top: 20px;
+}
+
+/* --- MAIN CONTENT --- */
+.main-content {
+    flex: 1;
+    margin-left: 260px; /* SAMA DENGAN LEBAR SIDEBAR */
+    padding: 40px; /* Jarak dari tepi layar ke konten */
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+/* Button Group di Atas */
+.btn-group {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.btn-primary { background: #34495e; }
+.btn-success { background: #2ecc71; }
+.btn-info { background: #3498db; }
+.btn-masyaallah { background: #8e44ad; } /* Warna Ungu Quiz */
+
+/* --- KARTU PUTIH (SECTION CARD) --- */
+.section-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+
+.section-card h3 {
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-size: 18px;
+}
+
+/* --- TABEL --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th {
+    text-align: left;
+    padding: 12px;
+    background-color: #f8f9fa;
+    color: #7f8c8d;
+    font-weight: 600;
+    border-bottom: 2px solid #eee;
+}
+
+table td {
+    padding: 15px 12px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+/* Badge untuk kategori */
+.badge {
+    background: #e1f5fe;
+    color: #039be5;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: lowercase;
+}
+
+/* Icon Delete (Sampah) */
+.btn-icon.delete {
+    color: #e74c3c;
+    font-size: 18px;
+    transition: 0.2s;
+}
+
+.btn-icon.delete:hover {
+    transform: scale(1.2);
+}
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.pagination a {
+    padding: 6px 12px;
+    background: #ecf0f1;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.pagination a.active {
+    background: #3498db;
+    color: white;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.search-box button {
+    padding: 10px 16px;
+    border: none;
+    background: #3498db;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.data-info {
+    margin-bottom: 10px;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.modal-box h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.modal-box {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-box p {
+    color: #7f8c8d;
+    margin-bottom: 25px;
+}
+
+.modal-overlay {
+    display: none; /* Tersembunyi secara default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Hitam transparan */
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-icon {
+    font-size: 3rem;
+    color: #e74c3c;
+    margin-bottom: 15px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-cancel, .btn-confirm {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+}
+
+.btn-cancel {
+    background: #ecf0f1;
+    color: #7f8c8d;
+    transition: 0.3s;
+}
+
+.btn-confirm {
+    background: #e74c3c;
+    color: white;
+    transition: 0.3s;
+}
+
+.btn-cancel:hover { background: #dcdde1; }
+.btn-confirm:hover { background: #c0392b; }
+
+/* Animasi muncul */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}

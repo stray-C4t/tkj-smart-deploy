@@ -1,0 +1,17 @@
+/* Berlaku untuk seluruh halaman website */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Elemen saat belum terlihat */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+/* Elemen saat sudah masuk ke layar (ditambahkan via JS) */
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
